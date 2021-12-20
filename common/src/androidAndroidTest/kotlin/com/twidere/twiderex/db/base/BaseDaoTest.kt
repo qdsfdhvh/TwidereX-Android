@@ -24,12 +24,17 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.junit.runner.RunWith
 import java.util.concurrent.Executors
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
@@ -37,21 +42,25 @@ internal abstract class BaseDaoTest<DB : RoomDatabase> {
 
     protected lateinit var roomDatabase: DB
 
-    @get:Rule
-    val rule = TestCoroutineRule()
+    private val dispatcher = StandardTestDispatcher()
+    private val testScope = TestScope(dispatcher)
 
-    @Before
+    @BeforeTest
     open fun setUp() {
+        Dispatchers.setMain(dispatcher)
+
         roomDatabase = Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), getDBClass())
             .setTransactionExecutor(Executors.newSingleThreadExecutor()).build()
     }
 
-    @After
+    @AfterTest
     open fun tearDown() {
+        Dispatchers.resetMain()
+
         roomDatabase.close()
     }
 
     abstract fun getDBClass(): Class<DB>
 
-    protected fun runTest(testBody: suspend () -> Unit) = kotlinx.coroutines.test.runTest() { testBody() }
+    protected fun runTest(testBody: suspend () -> Unit) = testScope.runTest() { testBody() }
 }
