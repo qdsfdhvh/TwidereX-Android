@@ -46,7 +46,7 @@ jobs:
   connected-android-test:
     runs-on: macOS-11
     needs: unit-test
-    timeout-minutes: 60
+    timeout-minutes: 90
     
     strategy:
       # Allow tests to continue on other devices if they fail on one device.
