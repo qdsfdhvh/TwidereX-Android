@@ -32,7 +32,6 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.runner.RunWith
-import java.util.concurrent.Executors
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 
@@ -42,21 +41,22 @@ internal abstract class BaseDaoTest<DB : RoomDatabase> {
 
     protected lateinit var roomDatabase: DB
 
-    private val dispatcher = StandardTestDispatcher()
-    private val testScope = TestScope(dispatcher)
+    private val testScope = TestScope()
 
     @BeforeTest
     open fun setUp() {
-        Dispatchers.setMain(dispatcher)
+        Dispatchers.setMain(StandardTestDispatcher(testScope.testScheduler))
 
         roomDatabase = Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), getDBClass())
-            .setTransactionExecutor(Executors.newSingleThreadExecutor()).build()
+            .allowMainThreadQueries()
+            .build()
     }
 
     @AfterTest
     open fun tearDown() {
         Dispatchers.resetMain()
 
+        roomDatabase.clearAllTables()
         roomDatabase.close()
     }
 

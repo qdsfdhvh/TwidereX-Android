@@ -24,7 +24,7 @@ import com.twidere.twiderex.dataprovider.db.AppDatabaseImpl
 import com.twidere.twiderex.db.base.AppDatabaseDaoTest
 import com.twidere.twiderex.mock.model.mockUiDraft
 import kotlinx.coroutines.flow.firstOrNull
-import org.junit.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 

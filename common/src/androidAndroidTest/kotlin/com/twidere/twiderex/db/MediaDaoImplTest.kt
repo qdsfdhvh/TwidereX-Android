@@ -25,7 +25,7 @@ import com.twidere.twiderex.db.base.CacheDatabaseDaoTest
 import com.twidere.twiderex.mock.model.mockUiMedia
 import com.twidere.twiderex.model.MicroBlogKey
 import com.twidere.twiderex.room.db.transform.toDbMedia
-import org.junit.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class MediaDaoImplTest : CacheDatabaseDaoTest() {

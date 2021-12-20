@@ -27,7 +27,7 @@ import com.twidere.twiderex.mock.model.mockIStatus
 import com.twidere.twiderex.model.MicroBlogKey
 import com.twidere.twiderex.model.ui.UiUrlEntity
 import kotlinx.coroutines.flow.firstOrNull
-import org.junit.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull

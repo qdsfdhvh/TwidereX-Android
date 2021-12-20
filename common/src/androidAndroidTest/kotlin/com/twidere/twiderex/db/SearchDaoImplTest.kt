@@ -25,7 +25,7 @@ import com.twidere.twiderex.db.base.AppDatabaseDaoTest
 import com.twidere.twiderex.mock.model.mockUiSearch
 import com.twidere.twiderex.model.MicroBlogKey
 import kotlinx.coroutines.flow.firstOrNull
-import org.junit.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class SearchDaoImplTest : AppDatabaseDaoTest() {

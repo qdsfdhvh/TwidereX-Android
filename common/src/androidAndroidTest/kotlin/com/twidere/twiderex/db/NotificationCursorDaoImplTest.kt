@@ -25,8 +25,8 @@ import com.twidere.twiderex.db.base.CacheDatabaseDaoTest
 import com.twidere.twiderex.model.MicroBlogKey
 import com.twidere.twiderex.model.enums.NotificationCursorType
 import com.twidere.twiderex.model.paging.NotificationCursor
-import org.junit.Test
 import java.util.UUID
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class NotificationCursorDaoImplTest : CacheDatabaseDaoTest() {
