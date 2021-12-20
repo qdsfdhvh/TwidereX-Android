@@ -25,6 +25,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -34,13 +38,19 @@ import java.util.concurrent.Executors
 @RunWith(AndroidJUnit4::class)
 internal abstract class BaseDaoTest<DB : RoomDatabase> {
     protected lateinit var roomDatabase: DB
+
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
+    private val executor = Executors.newSingleThreadExecutor()
+
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     open fun setUp() {
+        Dispatchers.setMain(executor.asCoroutineDispatcher())
+
         roomDatabase = Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), getDBClass())
-            .setTransactionExecutor(Executors.newSingleThreadExecutor()).build()
+            .setTransactionExecutor(executor).build()
     }
 
     @After
