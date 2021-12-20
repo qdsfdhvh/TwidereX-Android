@@ -25,7 +25,6 @@ import com.twidere.twiderex.db.base.AppDatabaseDaoTest
 import com.twidere.twiderex.mock.model.mockUiSearch
 import com.twidere.twiderex.model.MicroBlogKey
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import kotlin.test.assertEquals
 

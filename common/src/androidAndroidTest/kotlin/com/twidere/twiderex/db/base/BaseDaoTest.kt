@@ -52,4 +52,6 @@ internal abstract class BaseDaoTest<DB : RoomDatabase> {
     }
 
     abstract fun getDBClass(): Class<DB>
+
+    protected fun runTest(testBody: suspend () -> Unit) = kotlinx.coroutines.test.runTest() { testBody() }
 }
