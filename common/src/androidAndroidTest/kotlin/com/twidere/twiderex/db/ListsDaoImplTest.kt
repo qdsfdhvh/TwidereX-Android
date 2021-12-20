@@ -27,7 +27,7 @@ import com.twidere.twiderex.db.base.CacheDatabaseDaoTest
 import com.twidere.twiderex.mock.model.mockIListModel
 import com.twidere.twiderex.model.MicroBlogKey
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -43,7 +43,7 @@ internal class ListsDaoImplTest : CacheDatabaseDaoTest() {
         mockIListModel().toUi(accountKey)
     )
     @Test
-    fun checkInsertDbLists() = runBlocking {
+    fun checkInsertDbLists() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         cacheDatabase.listsDao().insertAll(insertData)
         val result = roomDatabase.listsDao().findAll()
@@ -51,7 +51,7 @@ internal class ListsDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun findDbListWithListKey() = runBlocking {
+    fun findDbListWithListKey() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         cacheDatabase.listsDao().insertAll(insertData)
         val result = cacheDatabase.listsDao().findWithListKey(insertData.first().listKey, accountKey)
@@ -61,7 +61,7 @@ internal class ListsDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun findDbListWithListKeyWithFlow_AutoUpdateAfterDbUpdate() = runBlocking {
+    fun findDbListWithListKeyWithFlow_AutoUpdateAfterDbUpdate() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         cacheDatabase.listsDao().insertAll(insertData)
         val source = cacheDatabase.listsDao().findWithListKeyWithFlow(insertData.first().listKey, accountKey)
@@ -76,7 +76,7 @@ internal class ListsDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun clearDbList() = runBlocking {
+    fun clearDbList() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         cacheDatabase.listsDao().insertAll(insertData)
         cacheDatabase.listsDao().clearAll(accountKey)
@@ -84,7 +84,7 @@ internal class ListsDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun getPagingSource_PagingSourceGenerateCorrectKeyForNext() = runBlocking {
+    fun getPagingSource_PagingSourceGenerateCorrectKeyForNext() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         cacheDatabase.listsDao().insertAll(insertData)
         val pagingSource = cacheDatabase.listsDao().getPagingSource(
@@ -102,7 +102,7 @@ internal class ListsDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun getPagingSource_pagingSourceInvalidateAfterDbUpDate() = runBlocking {
+    fun getPagingSource_pagingSourceInvalidateAfterDbUpDate() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         var invalidate = false
         cacheDatabase.listsDao().getPagingSource(
@@ -122,7 +122,7 @@ internal class ListsDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun getPagingListCount_ReturnsCountMatchesQuery() = runBlocking {
+    fun getPagingListCount_ReturnsCountMatchesQuery() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         cacheDatabase.listsDao().insertAll(insertData + mockIListModel().toUi(MicroBlogKey.twitter("Not included")))
         assertEquals(insertData.size, roomDatabase.listsDao().getPagingListCount(accountKey))

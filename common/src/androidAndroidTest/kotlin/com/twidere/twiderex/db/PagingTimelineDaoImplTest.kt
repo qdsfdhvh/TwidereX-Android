@@ -26,7 +26,7 @@ import com.twidere.twiderex.dataprovider.mapper.toPagingTimeline
 import com.twidere.twiderex.db.base.CacheDatabaseDaoTest
 import com.twidere.twiderex.mock.model.mockIStatus
 import com.twidere.twiderex.model.MicroBlogKey
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -37,7 +37,7 @@ internal class PagingTimelineDaoImplTest : CacheDatabaseDaoTest() {
     private val pagingKey = "pagingKey"
 
     @Test
-    fun getPagingListCount_ReturnsCountMatchesQuery() = runBlocking {
+    fun getPagingListCount_ReturnsCountMatchesQuery() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val originData = listOf(
             mockIStatus().toPagingTimeline(accountKey, pagingKey),
@@ -53,7 +53,7 @@ internal class PagingTimelineDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun getPagingSource_PagingSourceGenerateCorrectKeyForNext() = runBlocking {
+    fun getPagingSource_PagingSourceGenerateCorrectKeyForNext() = runTest {
 
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val originData = listOf(
@@ -81,7 +81,7 @@ internal class PagingTimelineDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun getPagingSource_pagingSourceInvalidateAfterDbUpDate() = runBlocking {
+    fun getPagingSource_pagingSourceInvalidateAfterDbUpDate() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         var invalidate = false
         cacheDatabase.pagingTimelineDao().getPagingSource(
@@ -105,7 +105,7 @@ internal class PagingTimelineDaoImplTest : CacheDatabaseDaoTest() {
         assert(invalidate)
     }
     @Test
-    fun getLatest_ReturnsResultWithStatusAndReference() = runBlocking {
+    fun getLatest_ReturnsResultWithStatusAndReference() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val originData = listOf(
             mockIStatus(hasReference = true, hasMedia = true).toPagingTimeline(accountKey, pagingKey),
@@ -124,7 +124,7 @@ internal class PagingTimelineDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun getLatest_ReturnsResultWithMaxValueOfSortId() = runBlocking {
+    fun getLatest_ReturnsResultWithMaxValueOfSortId() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val originData = listOf(
             mockIStatus().toPagingTimeline(accountKey, pagingKey),
@@ -145,7 +145,7 @@ internal class PagingTimelineDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun delete_DeletePagingTimelineThatMatchesStatusKey(): Unit = runBlocking {
+    fun delete_DeletePagingTimelineThatMatchesStatusKey(): Unit = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val originData = listOf(
             mockIStatus().toPagingTimeline(accountKey, pagingKey).timeline,
@@ -171,7 +171,7 @@ internal class PagingTimelineDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun clearAll_ClearAllPagingTimelineThatMatchesPagingKey(): Unit = runBlocking {
+    fun clearAll_ClearAllPagingTimelineThatMatchesPagingKey(): Unit = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val originData = listOf(
             mockIStatus().toPagingTimeline(accountKey, "pagingKey1").timeline,

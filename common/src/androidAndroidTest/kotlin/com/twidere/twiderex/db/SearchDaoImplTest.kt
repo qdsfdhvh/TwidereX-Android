@@ -25,7 +25,7 @@ import com.twidere.twiderex.db.base.AppDatabaseDaoTest
 import com.twidere.twiderex.mock.model.mockUiSearch
 import com.twidere.twiderex.model.MicroBlogKey
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -34,7 +34,7 @@ internal class SearchDaoImplTest : AppDatabaseDaoTest() {
     private val mastodonAccountKey = MicroBlogKey("456", "mastodon.com")
 
     @Test
-    fun getAll_returnResultByAccountKey(): Unit = runBlocking {
+    fun getAll_returnResultByAccountKey(): Unit = runTest {
         val appDatabase = AppDatabaseImpl(roomDatabase)
         appDatabase.searchDao().insertAll(
             listOf(
@@ -54,7 +54,7 @@ internal class SearchDaoImplTest : AppDatabaseDaoTest() {
     }
 
     @Test
-    fun getAllHistory_returnResultsMatchAccountKeyAndNotSaved() = runBlocking {
+    fun getAllHistory_returnResultsMatchAccountKeyAndNotSaved() = runTest {
         val appDatabase = AppDatabaseImpl(roomDatabase)
         appDatabase.searchDao().insertAll(
             listOf(
@@ -70,7 +70,7 @@ internal class SearchDaoImplTest : AppDatabaseDaoTest() {
     }
 
     @Test
-    fun getAllSaved_returnResultsMatchAccountKeyAndSaved() = runBlocking {
+    fun getAllSaved_returnResultsMatchAccountKeyAndSaved() = runTest {
         val appDatabase = AppDatabaseImpl(roomDatabase)
         appDatabase.searchDao().insertAll(
             listOf(
@@ -86,7 +86,7 @@ internal class SearchDaoImplTest : AppDatabaseDaoTest() {
     }
 
     @Test
-    fun getSearch_returnResultsMatchContentAndAccountKey() = runBlocking {
+    fun getSearch_returnResultsMatchContentAndAccountKey() = runTest {
         val appDatabase = AppDatabaseImpl(roomDatabase)
         appDatabase.searchDao().insertAll(listOf(mockUiSearch(content = "twitter", accountKey = twitterAccountKey)))
         val result = appDatabase.searchDao().get("twitter", twitterAccountKey)
@@ -97,7 +97,7 @@ internal class SearchDaoImplTest : AppDatabaseDaoTest() {
     }
 
     @Test
-    fun deleteSearch_getNullAfterDelete() = runBlocking {
+    fun deleteSearch_getNullAfterDelete() = runTest {
         val appDatabase = AppDatabaseImpl(roomDatabase)
         appDatabase.searchDao().insertAll(listOf(mockUiSearch(content = "twitter", accountKey = twitterAccountKey)))
         val result = appDatabase.searchDao().get("twitter", twitterAccountKey)
@@ -107,7 +107,7 @@ internal class SearchDaoImplTest : AppDatabaseDaoTest() {
     }
 
     @Test
-    fun clearHistory_deleteSearchNotSaved() = runBlocking {
+    fun clearHistory_deleteSearchNotSaved() = runTest {
         val appDatabase = AppDatabaseImpl(roomDatabase)
         appDatabase.searchDao().insertAll(
             listOf(

@@ -30,7 +30,7 @@ import com.twidere.twiderex.db.base.CacheDatabaseDaoTest
 import com.twidere.twiderex.mock.model.mockITrend
 import com.twidere.twiderex.model.MicroBlogKey
 import com.twidere.twiderex.model.ui.UiTrend
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.junit.runner.RunWith
 import kotlin.test.assertEquals
@@ -75,7 +75,7 @@ internal class TrendDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun insert_SaveBothTrendAndHistory() = runBlocking {
+    fun insert_SaveBothTrendAndHistory() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         cacheDatabase.trendDao().insertAll(trends)
         val twitterTrend = roomDatabase.trendDao().getPagingList(accountKey = twitterAccountKey, limit = twitterTrendCount, offset = 0)
@@ -88,7 +88,7 @@ internal class TrendDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun getPagingListCount_ReturnsCountMatchesQuery() = runBlocking {
+    fun getPagingListCount_ReturnsCountMatchesQuery() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         cacheDatabase.trendDao().insertAll(trends)
         assertEquals(twitterTrendCount, roomDatabase.trendDao().getPagingListCount(twitterAccountKey))
@@ -96,7 +96,7 @@ internal class TrendDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun getPagingSource_PagingSourceGenerateCorrectKeyForNext() = runBlocking {
+    fun getPagingSource_PagingSourceGenerateCorrectKeyForNext() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         cacheDatabase.trendDao().insertAll(trends)
         val pagingSource = cacheDatabase.trendDao().getPagingSource(
@@ -114,7 +114,7 @@ internal class TrendDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun getPagingSource_pagingSourceInvalidateAfterDbUpDate() = runBlocking {
+    fun getPagingSource_pagingSourceInvalidateAfterDbUpDate() = runTest {
         var invalidate = false
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         cacheDatabase.trendDao().getPagingSource(
@@ -134,7 +134,7 @@ internal class TrendDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun clearAll_ClearBothTrendAndTrendHistory() = runBlocking {
+    fun clearAll_ClearBothTrendAndTrendHistory() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         cacheDatabase.trendDao().insertAll(trends)
         cacheDatabase.trendDao().clear(twitterAccountKey)

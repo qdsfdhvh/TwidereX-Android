@@ -27,7 +27,7 @@ import com.twidere.twiderex.mock.model.mockIStatus
 import com.twidere.twiderex.model.MicroBlogKey
 import com.twidere.twiderex.model.ui.UiUrlEntity
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -37,7 +37,7 @@ internal class StatusDaoImplTest : CacheDatabaseDaoTest() {
     private val accountKey = MicroBlogKey.twitter("123")
 
     @Test
-    fun insertAll_SaveBothStatusAndAttachmentsToDatabase() = runBlocking {
+    fun insertAll_SaveBothStatusAndAttachmentsToDatabase() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val status = mockIStatus(hasMedia = true, hasReference = true).toUi(accountKey).copy(
             url = listOf(
@@ -87,7 +87,7 @@ internal class StatusDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun delete_DeleteBothStatusAndReferencesAndReactions() = runBlocking {
+    fun delete_DeleteBothStatusAndReferencesAndReactions() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val status = mockIStatus(hasReference = true).toUi(accountKey)
         val statusFlow = cacheDatabase.statusDao().findWithStatusKeyWithFlow(statusKey = status.statusKey, accountKey = accountKey)
@@ -100,7 +100,7 @@ internal class StatusDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun findWithStatusKeyWithFlow_ReturnsStatusFlowAndUpdateAfterDbChanged() = runBlocking {
+    fun findWithStatusKeyWithFlow_ReturnsStatusFlowAndUpdateAfterDbChanged() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val status = mockIStatus().toUi(accountKey)
         val statusFlow = cacheDatabase.statusDao().findWithStatusKeyWithFlow(statusKey = status.statusKey, accountKey = accountKey)
@@ -118,7 +118,7 @@ internal class StatusDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun updateReaction_UpdateOnlyEffectOnSpecifiedReaction() = runBlocking {
+    fun updateReaction_UpdateOnlyEffectOnSpecifiedReaction() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val status = mockIStatus().toUi(accountKey)
         val statusFlow = cacheDatabase.statusDao().findWithStatusKeyWithFlow(statusKey = status.statusKey, accountKey = accountKey)

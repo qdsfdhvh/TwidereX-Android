@@ -20,17 +20,11 @@
  */
 package com.twidere.twiderex.db.base
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.newSingleThreadContext
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -44,24 +38,16 @@ internal abstract class BaseDaoTest<DB : RoomDatabase> {
     protected lateinit var roomDatabase: DB
 
     @get:Rule
-    val rule = InstantTaskExecutorRule()
-
-    @OptIn(DelicateCoroutinesApi::class)
-    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
+    val rule = TestCoroutineRule()
 
     @Before
     open fun setUp() {
         roomDatabase = Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), getDBClass())
             .setTransactionExecutor(Executors.newSingleThreadExecutor()).build()
-
-        Dispatchers.setMain(mainThreadSurrogate)
     }
 
     @After
     open fun tearDown() {
-        Dispatchers.resetMain()
-        mainThreadSurrogate.close()
-
         roomDatabase.close()
     }
 
