@@ -20,21 +20,21 @@
  */
 package com.twidere.twiderex.db
 
-import com.twidere.twiderex.dataprovider.db.CacheDatabaseImpl
-import com.twidere.twiderex.db.base.CacheDatabaseDaoTest
-import com.twidere.twiderex.mock.model.mockUiMedia
-import com.twidere.twiderex.model.MicroBlogKey
-import com.twidere.twiderex.room.db.transform.toDbMedia
-import org.junit.Test
-import kotlin.test.assertEquals
-
-internal class MediaDaoImplTest : CacheDatabaseDaoTest() {
-
-    @Test
-    fun findMediaByBelongToKey_ReturnsResultMatchTheBelongKey() = runTest {
-        val cacheDatabase = CacheDatabaseImpl(roomDatabase)
-        val belongKey = MicroBlogKey.twitter("test")
-        roomDatabase.mediaDao().insertAll(listOf(mockUiMedia(belongToKey = belongKey)).toDbMedia())
-        assertEquals(belongKey, cacheDatabase.mediaDao().findMediaByBelongToKey(belongKey).first().belongToKey)
-    }
-}
+// import com.twidere.twiderex.dataprovider.db.CacheDatabaseImpl
+// import com.twidere.twiderex.db.base.CacheDatabaseDaoTest
+// import com.twidere.twiderex.mock.model.mockUiMedia
+// import com.twidere.twiderex.model.MicroBlogKey
+// import com.twidere.twiderex.room.db.transform.toDbMedia
+// import org.junit.Test
+// import kotlin.test.assertEquals
+//
+// internal class MediaDaoImplTest : CacheDatabaseDaoTest() {
+//
+//     @Test
+//     fun findMediaByBelongToKey_ReturnsResultMatchTheBelongKey() = runTest {
+//         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
+//         val belongKey = MicroBlogKey.twitter("test")
+//         roomDatabase.mediaDao().insertAll(listOf(mockUiMedia(belongToKey = belongKey)).toDbMedia())
+//         assertEquals(belongKey, cacheDatabase.mediaDao().findMediaByBelongToKey(belongKey).first().belongToKey)
+//     }
+// }

@@ -20,42 +20,42 @@
  */
 package com.twidere.twiderex.db
 
-import com.twidere.twiderex.dataprovider.db.AppDatabaseImpl
-import com.twidere.twiderex.db.base.AppDatabaseDaoTest
-import com.twidere.twiderex.mock.model.mockUiDraft
-import kotlinx.coroutines.flow.firstOrNull
-import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNull
-
-internal class DraftDaoImplTest : AppDatabaseDaoTest() {
-
-    @Test
-    fun getAll_returnResultFlow(): Unit = runTest {
-        val appDatabase = AppDatabaseImpl(roomDatabase)
-        val resultFlow = appDatabase.draftDao().getAll()
-        assertEquals(0, resultFlow.firstOrNull()?.size)
-        val removeDraft = mockUiDraft()
-        appDatabase.withTransaction {
-            appDatabase.draftDao().insert(removeDraft)
-            appDatabase.draftDao().insert(mockUiDraft())
-        }
-        assertEquals(2, resultFlow.firstOrNull()?.size)
-
-        appDatabase.draftDao().remove(removeDraft)
-
-        assertNull(appDatabase.draftDao().get(removeDraft.draftId))
-    }
-
-    @Test
-    fun getDraftCount_returnCorrectCountFlow(): Unit = runTest {
-        val appDatabase = AppDatabaseImpl(roomDatabase)
-        val resultFlow = appDatabase.draftDao().getDraftCount()
-        assertEquals(0, resultFlow.firstOrNull())
-        appDatabase.withTransaction {
-            appDatabase.draftDao().insert(mockUiDraft())
-            appDatabase.draftDao().insert(mockUiDraft())
-        }
-        assertEquals(2, resultFlow.firstOrNull())
-    }
-}
+// import com.twidere.twiderex.dataprovider.db.AppDatabaseImpl
+// import com.twidere.twiderex.db.base.AppDatabaseDaoTest
+// import com.twidere.twiderex.mock.model.mockUiDraft
+// import kotlinx.coroutines.flow.firstOrNull
+// import org.junit.Test
+// import kotlin.test.assertEquals
+// import kotlin.test.assertNull
+//
+// internal class DraftDaoImplTest : AppDatabaseDaoTest() {
+//
+//     @Test
+//     fun getAll_returnResultFlow(): Unit = runTest {
+//         val appDatabase = AppDatabaseImpl(roomDatabase)
+//         val resultFlow = appDatabase.draftDao().getAll()
+//         assertEquals(0, resultFlow.firstOrNull()?.size)
+//         val removeDraft = mockUiDraft()
+//         appDatabase.withTransaction {
+//             appDatabase.draftDao().insert(removeDraft)
+//             appDatabase.draftDao().insert(mockUiDraft())
+//         }
+//         assertEquals(2, resultFlow.firstOrNull()?.size)
+//
+//         appDatabase.draftDao().remove(removeDraft)
+//
+//         assertNull(appDatabase.draftDao().get(removeDraft.draftId))
+//     }
+//
+//     @Test
+//     fun getDraftCount_returnCorrectCountFlow(): Unit = runTest {
+//         val appDatabase = AppDatabaseImpl(roomDatabase)
+//         val resultFlow = appDatabase.draftDao().getDraftCount()
+//         assertEquals(0, resultFlow.firstOrNull())
+//         appDatabase.withTransaction {
+//             appDatabase.draftDao().insert(mockUiDraft())
+//             appDatabase.draftDao().insert(mockUiDraft())
+//         }
+//         assertEquals(2, resultFlow.firstOrNull())
+//     }
+// }

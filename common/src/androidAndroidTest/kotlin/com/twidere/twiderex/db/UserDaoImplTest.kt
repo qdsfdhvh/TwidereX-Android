@@ -20,40 +20,40 @@
  */
 package com.twidere.twiderex.db
 
-import com.twidere.twiderex.dataprovider.db.CacheDatabaseImpl
-import com.twidere.twiderex.dataprovider.mapper.toUi
-import com.twidere.twiderex.db.base.CacheDatabaseDaoTest
-import com.twidere.twiderex.mock.model.mockIUser
-import com.twidere.twiderex.model.MicroBlogKey
-import kotlinx.coroutines.flow.firstOrNull
-import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNull
-
-internal class UserDaoImplTest : CacheDatabaseDaoTest() {
-
-    @Test
-    fun findWithUserKey_ReturnUserMatchUserKey() = runTest {
-        val cacheDatabase = CacheDatabaseImpl(roomDatabase)
-        val accountKey = MicroBlogKey.twitter("account")
-        val user = mockIUser(id = "user").toUi(accountKey)
-        cacheDatabase.userDao().insertAll(listOf(user))
-        assertEquals(user.userKey, cacheDatabase.userDao().findWithUserKey(user.userKey)?.userKey)
-        assertNull(cacheDatabase.userDao().findWithUserKey(MicroBlogKey.twitter("not exists"))?.userKey)
-    }
-
-    @Test
-    fun findWithUserKeyFlow_ReturnUserFlowAndMatchUserKey() = runTest {
-        val cacheDatabase = CacheDatabaseImpl(roomDatabase)
-        val accountKey = MicroBlogKey.twitter("account")
-        val user = mockIUser(id = "user").toUi(accountKey)
-        val userFlow = cacheDatabase.userDao().findWithUserKeyFlow(user.userKey)
-        assertNull(userFlow.firstOrNull())
-
-        cacheDatabase.userDao().insertAll(listOf(mockIUser("other user").toUi(accountKey)))
-        assertNull(userFlow.firstOrNull())
-
-        cacheDatabase.userDao().insertAll(listOf(user))
-        assertEquals(user.userKey, userFlow.firstOrNull()?.userKey)
-    }
-}
+// import com.twidere.twiderex.dataprovider.db.CacheDatabaseImpl
+// import com.twidere.twiderex.dataprovider.mapper.toUi
+// import com.twidere.twiderex.db.base.CacheDatabaseDaoTest
+// import com.twidere.twiderex.mock.model.mockIUser
+// import com.twidere.twiderex.model.MicroBlogKey
+// import kotlinx.coroutines.flow.firstOrNull
+// import org.junit.Test
+// import kotlin.test.assertEquals
+// import kotlin.test.assertNull
+//
+// internal class UserDaoImplTest : CacheDatabaseDaoTest() {
+//
+//     @Test
+//     fun findWithUserKey_ReturnUserMatchUserKey() = runTest {
+//         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
+//         val accountKey = MicroBlogKey.twitter("account")
+//         val user = mockIUser(id = "user").toUi(accountKey)
+//         cacheDatabase.userDao().insertAll(listOf(user))
+//         assertEquals(user.userKey, cacheDatabase.userDao().findWithUserKey(user.userKey)?.userKey)
+//         assertNull(cacheDatabase.userDao().findWithUserKey(MicroBlogKey.twitter("not exists"))?.userKey)
+//     }
+//
+//     @Test
+//     fun findWithUserKeyFlow_ReturnUserFlowAndMatchUserKey() = runTest {
+//         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
+//         val accountKey = MicroBlogKey.twitter("account")
+//         val user = mockIUser(id = "user").toUi(accountKey)
+//         val userFlow = cacheDatabase.userDao().findWithUserKeyFlow(user.userKey)
+//         assertNull(userFlow.firstOrNull())
+//
+//         cacheDatabase.userDao().insertAll(listOf(mockIUser("other user").toUi(accountKey)))
+//         assertNull(userFlow.firstOrNull())
+//
+//         cacheDatabase.userDao().insertAll(listOf(user))
+//         assertEquals(user.userKey, userFlow.firstOrNull()?.userKey)
+//     }
+// }
