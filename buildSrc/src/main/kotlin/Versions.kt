@@ -25,7 +25,7 @@ object Versions {
     const val activity = "1.4.0"
     const val datastore = "1.0.0"
     const val androidx_hilt = "1.0.0"
-    const val room = "2.4.0-beta02"
+    const val room = "2.4.0"
     const val lifecycle = "2.4.0"
     const val lifecycle_compose = "2.4.0"
     const val work = "2.7.1"

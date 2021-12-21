@@ -7,7 +7,6 @@ plugins {
     id("org.jetbrains.compose") version Versions.compose_jb
     kotlin("plugin.serialization") version Versions.Kotlin.lang
     id("com.android.library")
-    kotlin("kapt")
     id("com.google.devtools.ksp").version(Versions.ksp)
     id("dev.icerock.mobile.multiplatform-resources") version Versions.moko
     id("com.squareup.sqldelight")
@@ -31,9 +30,6 @@ version = Package.versionName
 repositories {
     google()
 }
-
-// TODO: workaround for https://github.com/google/ksp/issues/518
-evaluationDependsOn(":routeProcessor")
 
 kotlin {
     android()
@@ -60,7 +56,7 @@ kotlin {
                 implementation("com.twitter.twittertext:twitter-text:3.1.0")
                 implementation("org.jsoup:jsoup:1.14.3")
                 implementation(projects.routeProcessor)
-                ksp(projects.routeProcessor)
+                kspAll(projects.routeProcessor)
                 implementation("com.squareup.sqldelight:coroutines-extensions-jvm:${Versions.sqlDelight}")
                 api("dev.icerock.moko:resources:${Versions.moko}")
                 implementation("app.cash.turbine:turbine:0.7.0")
@@ -87,7 +83,7 @@ kotlin {
                 implementation("androidx.room:room-runtime:${Versions.room}")
                 implementation("androidx.room:room-ktx:${Versions.room}")
                 implementation("androidx.room:room-paging:${Versions.room}")
-                kapt("androidx.room:room-compiler:${Versions.room}")
+                kspAndroid("androidx.room:room-compiler:${Versions.room}")
                 implementation("io.coil-kt:coil-base:${Versions.coil}")
                 implementation("io.coil-kt:coil-compose:${Versions.coil}")
                 implementation("io.coil-kt:coil-gif:${Versions.coil}")
@@ -152,12 +148,17 @@ multiplatformResources {
     multiplatformResourcesPackage = Package.id
 }
 
-fun org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler.kapt(dependencyNotation: String) {
-    configurations["kapt"].dependencies.add(project.dependencies.create(dependencyNotation))
+fun org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler.kspAll(dependencyNotation: Any) {
+    kspAndroid(dependencyNotation)
+    kspDesktop(dependencyNotation)
 }
 
-fun org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler.ksp(dependencyNotation: org.gradle.accessors.dm.RouteProcessorProjectDependency) {
-    configurations["ksp"].dependencies.add(projects.routeProcessor)
+fun org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler.kspDesktop(dependencyNotation: Any) {
+    configurations["kspDesktop"].dependencies.add(project.dependencies.create(dependencyNotation))
+}
+
+fun org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler.kspAndroid(dependencyNotation: Any) {
+    configurations["kspAndroid"].dependencies.add(project.dependencies.create(dependencyNotation))
 }
 
 android {
@@ -169,12 +170,6 @@ android {
         targetSdk = AndroidSdk.target
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["notPackage"] = "com.twidere.twiderex.viewmodel"
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                argument("room.schemaLocation", "$projectDir/schemas")
-            }
-        }
     }
 
     compileOptions {
@@ -196,6 +191,10 @@ android {
             )
         }
     }
+}
+
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
 }
 
 tasks.create("generateTranslation") {
