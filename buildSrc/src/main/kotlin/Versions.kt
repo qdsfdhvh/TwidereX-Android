@@ -34,7 +34,7 @@ object Versions {
     const val accompanist = "0.20.0"
     const val accompanist_jb = "0.18.1"
     const val androidx_exifinterface = "1.3.3"
-    const val exoplayer = "2.15.1"
+    const val exoplayer = "2.16.1"
     const val browser = "1.4.0"
     const val protobuf = "3.19.0"
     const val androidx_test = "1.4.1-alpha03"
