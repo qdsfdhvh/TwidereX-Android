@@ -25,8 +25,8 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 15
-      
+          java-version: 17
+
       - name: Build with Gradle
         run: ./gradlew :desktop:packageDeb
 
@@ -79,8 +79,8 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 15
-      
+          java-version: 17
+
       - name: Build with Gradle
         run: ./gradlew :desktop:packageMsi
 
@@ -133,8 +133,8 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 15
-      
+          java-version: 17
+
       - name: Build with Gradle
         run: ./gradlew :desktop:packageDmg
 
