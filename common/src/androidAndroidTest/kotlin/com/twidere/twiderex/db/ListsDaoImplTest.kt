@@ -100,25 +100,25 @@ internal class ListsDaoImplTest : CacheDatabaseDaoTest() {
         assertEquals(null, (loadMoreResult as PagingSource.LoadResult.Page).nextKey)
     }
 
-    @Test
-    fun getPagingSource_pagingSourceInvalidateAfterDbUpDate() = runTest {
-        val cacheDatabase = CacheDatabaseImpl(roomDatabase)
-        var invalidate = false
-        cacheDatabase.listsDao().getPagingSource(
-            accountKey = accountKey
-        ).apply {
-            registerInvalidatedCallback {
-                invalidate = true
-            }
-            load(PagingSource.LoadParams.Refresh(key = null, loadSize = 10, placeholdersEnabled = false))
-        }
-        cacheDatabase.listsDao().insertAll(listOf(mockIListModel().toUi(accountKey)))
-        val start = System.currentTimeMillis()
-        while (!invalidate && System.currentTimeMillis() - start < 3000) {
-            continue
-        }
-        assert(invalidate)
-    }
+    // @Test
+    // fun getPagingSource_pagingSourceInvalidateAfterDbUpDate() = runTest {
+    //     val cacheDatabase = CacheDatabaseImpl(roomDatabase)
+    //     var invalidate = false
+    //     cacheDatabase.listsDao().getPagingSource(
+    //         accountKey = accountKey
+    //     ).apply {
+    //         registerInvalidatedCallback {
+    //             invalidate = true
+    //         }
+    //         load(PagingSource.LoadParams.Refresh(key = null, loadSize = 10, placeholdersEnabled = false))
+    //     }
+    //     cacheDatabase.listsDao().insertAll(listOf(mockIListModel().toUi(accountKey)))
+    //     val start = System.currentTimeMillis()
+    //     while (!invalidate && System.currentTimeMillis() - start < 3000) {
+    //         continue
+    //     }
+    //     assert(invalidate)
+    // }
 
     @Test
     fun getPagingListCount_ReturnsCountMatchesQuery() = runTest {
