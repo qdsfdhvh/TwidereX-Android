@@ -26,7 +26,6 @@ import com.twidere.twiderex.db.base.CacheDatabaseDaoTest
 import com.twidere.twiderex.mock.model.mockIUser
 import com.twidere.twiderex.model.MicroBlogKey
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -34,7 +33,7 @@ import kotlin.test.assertNull
 internal class UserDaoImplTest : CacheDatabaseDaoTest() {
 
     @Test
-    fun findWithUserKey_ReturnUserMatchUserKey() = runBlocking {
+    fun findWithUserKey_ReturnUserMatchUserKey() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val accountKey = MicroBlogKey.twitter("account")
         val user = mockIUser(id = "user").toUi(accountKey)
@@ -44,7 +43,7 @@ internal class UserDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun findWithUserKeyFlow_ReturnUserFlowAndMatchUserKey() = runBlocking {
+    fun findWithUserKeyFlow_ReturnUserFlowAndMatchUserKey() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val accountKey = MicroBlogKey.twitter("account")
         val user = mockIUser(id = "user").toUi(accountKey)

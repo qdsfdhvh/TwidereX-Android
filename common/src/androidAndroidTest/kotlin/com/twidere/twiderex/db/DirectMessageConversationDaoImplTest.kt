@@ -29,7 +29,6 @@ import com.twidere.twiderex.mock.model.mockIUser
 import com.twidere.twiderex.mock.model.toConversation
 import com.twidere.twiderex.model.MicroBlogKey
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -38,7 +37,7 @@ internal class DirectMessageConversationDaoImplTest : CacheDatabaseDaoTest() {
     val accountKey = MicroBlogKey.twitter("test")
 
     @Test
-    fun delete() = runBlocking {
+    fun delete() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val conversation = mockIDirectMessage(accountId = accountKey.id, otherUserID = "other")
             .toUi(accountKey, mockIUser(id = "other").toUi(accountKey)).toConversation()
@@ -53,7 +52,7 @@ internal class DirectMessageConversationDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun getPagingListCount_ReturnsCountMatchesQuery() = runBlocking {
+    fun getPagingListCount_ReturnsCountMatchesQuery() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val list = listOf(
             mockIDirectMessage(accountId = accountKey.id, otherUserID = "other1")
@@ -70,7 +69,7 @@ internal class DirectMessageConversationDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun getPagingSource_PagingSourceGenerateCorrectKeyForNext() = runBlocking {
+    fun getPagingSource_PagingSourceGenerateCorrectKeyForNext() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val list = listOf(
             mockIDirectMessage(accountId = accountKey.id, otherUserID = "other1")
@@ -97,7 +96,7 @@ internal class DirectMessageConversationDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun getPagingSource_pagingSourceInvalidateAfterDbUpDate() = runBlocking {
+    fun getPagingSource_pagingSourceInvalidateAfterDbUpDate() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val conversation = mockIDirectMessage(accountId = accountKey.id, otherUserID = "other")
             .toUi(accountKey, mockIUser(id = "other").toUi(accountKey)).toConversation()
@@ -119,7 +118,7 @@ internal class DirectMessageConversationDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun findWithConversationKeyFlow() = runBlocking {
+    fun findWithConversationKeyFlow() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val conversation = mockIDirectMessage(accountId = accountKey.id, otherUserID = "other")
             .toUi(accountKey, mockIUser(id = "other").toUi(accountKey)).toConversation()

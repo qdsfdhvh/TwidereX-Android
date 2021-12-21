@@ -20,11 +20,12 @@
  */
 package com.twidere.twiderex.db.base
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -34,8 +35,9 @@ import java.util.concurrent.Executors
 @RunWith(AndroidJUnit4::class)
 internal abstract class BaseDaoTest<DB : RoomDatabase> {
     protected lateinit var roomDatabase: DB
+
     @get:Rule
-    val rule = InstantTaskExecutorRule()
+    val rule = TestCoroutineRule()
 
     @Before
     open fun setUp() {
@@ -49,4 +51,7 @@ internal abstract class BaseDaoTest<DB : RoomDatabase> {
     }
 
     abstract fun getDBClass(): Class<DB>
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    protected fun runTest(block: suspend CoroutineScope.() -> Unit) = kotlinx.coroutines.test.runTest { block() }
 }

@@ -27,7 +27,6 @@ import com.twidere.twiderex.db.base.CacheDatabaseDaoTest
 import com.twidere.twiderex.mock.model.mockIDirectMessage
 import com.twidere.twiderex.mock.model.mockIUser
 import com.twidere.twiderex.model.MicroBlogKey
-import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -36,7 +35,7 @@ import kotlin.test.assertNull
 internal class DirectMessageEventDaoImplTest : CacheDatabaseDaoTest() {
     val accountKey = MicroBlogKey.twitter("test")
     @Test
-    fun insertAll_SaveBothMessageAndAttachmentsToDatabase() = runBlocking {
+    fun insertAll_SaveBothMessageAndAttachmentsToDatabase() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val message = mockIDirectMessage(accountId = accountKey.id, otherUserID = "other")
             .toUi(accountKey, mockIUser(id = "other").toUi(accountKey))
@@ -48,7 +47,7 @@ internal class DirectMessageEventDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun getMessageCount_ReturnCorrectCountOfMessage() = runBlocking {
+    fun getMessageCount_ReturnCorrectCountOfMessage() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val message = mockIDirectMessage(accountId = accountKey.id, otherUserID = "other")
             .toUi(accountKey, mockIUser(id = "other").toUi(accountKey))
@@ -70,7 +69,7 @@ internal class DirectMessageEventDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun findWithMessageKey() = runBlocking {
+    fun findWithMessageKey() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val message = mockIDirectMessage(accountId = accountKey.id, otherUserID = "other")
             .toUi(accountKey, mockIUser(id = "other").toUi(accountKey))
@@ -93,7 +92,7 @@ internal class DirectMessageEventDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun delete() = runBlocking {
+    fun delete() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val message = mockIDirectMessage(accountId = accountKey.id, otherUserID = "other")
             .toUi(accountKey, mockIUser(id = "other").toUi(accountKey))
@@ -108,7 +107,7 @@ internal class DirectMessageEventDaoImplTest : CacheDatabaseDaoTest() {
         )
     }
     @Test
-    fun getPagingListCount_ReturnsCountMatchesQuery() = runBlocking {
+    fun getPagingListCount_ReturnsCountMatchesQuery() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val list = listOf(
             mockIDirectMessage(accountId = accountKey.id, otherUserID = "other1")
@@ -124,7 +123,7 @@ internal class DirectMessageEventDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun getPagingSource_PagingSourceGenerateCorrectKeyForNext() = runBlocking {
+    fun getPagingSource_PagingSourceGenerateCorrectKeyForNext() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val list = listOf(
             mockIDirectMessage(accountId = accountKey.id, otherUserID = "other")
@@ -151,7 +150,7 @@ internal class DirectMessageEventDaoImplTest : CacheDatabaseDaoTest() {
     }
 
     @Test
-    fun getPagingSource_pagingSourceInvalidateAfterDbUpDate() = runBlocking {
+    fun getPagingSource_pagingSourceInvalidateAfterDbUpDate() = runTest {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)
         val message = mockIDirectMessage(accountId = accountKey.id, otherUserID = "other")
             .toUi(accountKey, mockIUser(id = "other").toUi(accountKey))

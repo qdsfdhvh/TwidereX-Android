@@ -24,7 +24,6 @@ import com.twidere.twiderex.dataprovider.db.AppDatabaseImpl
 import com.twidere.twiderex.db.base.AppDatabaseDaoTest
 import com.twidere.twiderex.mock.model.mockUiDraft
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -32,7 +31,7 @@ import kotlin.test.assertNull
 internal class DraftDaoImplTest : AppDatabaseDaoTest() {
 
     @Test
-    fun getAll_returnResultFlow(): Unit = runBlocking {
+    fun getAll_returnResultFlow(): Unit = runTest {
         val appDatabase = AppDatabaseImpl(roomDatabase)
         val resultFlow = appDatabase.draftDao().getAll()
         assertEquals(0, resultFlow.firstOrNull()?.size)
@@ -49,7 +48,7 @@ internal class DraftDaoImplTest : AppDatabaseDaoTest() {
     }
 
     @Test
-    fun getDraftCount_returnCorrectCountFlow(): Unit = runBlocking {
+    fun getDraftCount_returnCorrectCountFlow(): Unit = runTest {
         val appDatabase = AppDatabaseImpl(roomDatabase)
         val resultFlow = appDatabase.draftDao().getDraftCount()
         assertEquals(0, resultFlow.firstOrNull())
