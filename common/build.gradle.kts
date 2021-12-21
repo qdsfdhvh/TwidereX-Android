@@ -70,7 +70,8 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
                 implementation("io.insert-koin:koin-test:${Versions.koin}")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.Kotlin.coroutines}")
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.Kotlin.coroutines}")
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.Kotlin.coroutines}")
                 implementation("io.mockk:mockk:1.12.1")
             }
         }
