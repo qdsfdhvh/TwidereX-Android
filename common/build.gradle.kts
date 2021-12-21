@@ -107,6 +107,7 @@ kotlin {
         }
         val androidAndroidTest by getting {
             dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.Kotlin.coroutines}")
                 implementation("androidx.arch.core:core-testing:2.1.0")
                 implementation("androidx.test:core:${Versions.androidx_test}")
                 implementation("androidx.test:runner:${Versions.androidx_test}")
