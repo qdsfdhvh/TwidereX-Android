@@ -76,6 +76,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.Kotlin.coroutines}")
                 implementation("androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}")
                 implementation("androidx.savedstate:savedstate-ktx:1.1.0")
                 implementation("androidx.core:core-ktx:1.8.0-alpha02")
