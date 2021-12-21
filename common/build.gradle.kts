@@ -77,7 +77,7 @@ kotlin {
             dependencies {
                 implementation("androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}")
                 implementation("androidx.savedstate:savedstate-ktx:1.1.0")
-                implementation("androidx.core:core-ktx:1.7.0-rc01")
+                implementation("androidx.core:core-ktx:1.8.0-alpha02")
                 implementation("io.insert-koin:koin-android:${Versions.koin}")
                 implementation("io.insert-koin:koin-androidx-workmanager:${Versions.koin}")
                 implementation("androidx.room:room-runtime:${Versions.room}")
@@ -100,6 +100,7 @@ kotlin {
                 implementation("androidx.browser:browser:${Versions.browser}")
                 implementation("androidx.vectordrawable:vectordrawable:1.2.0-alpha02")
                 implementation("androidx.activity:activity-compose:${Versions.activity}")
+                implementation("com.github.android:renderscript-intrinsics-replacement-toolkit:b6363490c3")
             }
         }
         val androidAndroidTest by getting {
