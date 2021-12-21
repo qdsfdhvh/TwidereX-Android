@@ -30,7 +30,7 @@ object Versions {
     const val lifecycle_compose = "2.4.0"
     const val work = "2.7.1"
     const val startup = "1.1.0"
-    const val coil = "1.4.0"
+    const val coil = "2.0.0-alpha05"
     const val accompanist = "0.21.5-rc"
     const val accompanist_jb = "0.18.1"
     const val androidx_exifinterface = "1.3.3"
