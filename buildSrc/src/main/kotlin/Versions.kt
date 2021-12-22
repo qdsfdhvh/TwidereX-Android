@@ -3,7 +3,7 @@ import org.gradle.api.JavaVersion
 object Versions {
     object Kotlin {
         const val lang = "1.6.10"
-        const val coroutines = "1.6.0-RC3"
+        const val coroutines = "1.6.0"
         const val serialization = "1.3.1"
     }
 
