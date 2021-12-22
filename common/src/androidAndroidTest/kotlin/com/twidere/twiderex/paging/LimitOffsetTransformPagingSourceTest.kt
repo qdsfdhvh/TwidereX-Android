@@ -25,12 +25,16 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.twidere.twiderex.room.db.RoomCacheDatabase
 import com.twidere.twiderex.room.db.paging.LimitOffsetTransformPagingSource
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
+@OptIn(ExperimentalCoroutinesApi::class)
 internal class LimitOffsetTransformPagingSourceTest {
+
     private val count = 30
 
     private val pagingSource = LimitOffsetTransformPagingSource(
@@ -46,11 +50,12 @@ internal class LimitOffsetTransformPagingSourceTest {
         },
         db = Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), RoomCacheDatabase::class.java).build()
     )
+
     @Test
-    fun refreshReturnsResultPageWithCorrectParams() = runBlocking {
+    fun refreshReturnsResultPageWithCorrectParams() = runTest {
         val result = pagingSource.load(params = PagingSource.LoadParams.Refresh(key = null, loadSize = 15, placeholdersEnabled = false))
         assert(result is PagingSource.LoadResult.Page)
-        if (result !is PagingSource.LoadResult.Page) return@runBlocking
+        if (result !is PagingSource.LoadResult.Page) return@runTest
         assertEquals(null, result.prevKey)
         assertEquals(15, result.nextKey)
         assertEquals(0, result.itemsBefore)
@@ -69,7 +74,7 @@ internal class LimitOffsetTransformPagingSourceTest {
     }
 
     @Test
-    fun appendReturnsResultPageWithCorrectParams() = runBlocking {
+    fun appendReturnsResultPageWithCorrectParams() = runTest {
         val result = pagingSource.load(params = PagingSource.LoadParams.Refresh(key = null, loadSize = 15, placeholdersEnabled = false))
         val loadMoreResult = pagingSource.load(params = PagingSource.LoadParams.Append(key = (result as PagingSource.LoadResult.Page).nextKey ?: 0, loadSize = 15, placeholdersEnabled = false))
         assert(loadMoreResult is PagingSource.LoadResult.Page)
@@ -83,7 +88,7 @@ internal class LimitOffsetTransformPagingSourceTest {
     }
 
     @Test
-    fun prependReturnsResultPageWithCorrectParams() = runBlocking {
+    fun prependReturnsResultPageWithCorrectParams() = runTest {
         val prependResult = pagingSource.load(params = PagingSource.LoadParams.Prepend(key = 10, loadSize = 5, placeholdersEnabled = false))
         assert(prependResult is PagingSource.LoadResult.Page)
         if (prependResult is PagingSource.LoadResult.Page) {

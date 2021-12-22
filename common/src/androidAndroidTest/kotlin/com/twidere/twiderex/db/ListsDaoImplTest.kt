@@ -27,12 +27,12 @@ import com.twidere.twiderex.db.base.CacheDatabaseDaoTest
 import com.twidere.twiderex.mock.model.mockIListModel
 import com.twidere.twiderex.model.MicroBlogKey
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 internal class ListsDaoImplTest : CacheDatabaseDaoTest() {
+
     val accountKey = MicroBlogKey.twitter("test")
 
     private val insertData = listOf(
@@ -42,6 +42,7 @@ internal class ListsDaoImplTest : CacheDatabaseDaoTest() {
         mockIListModel().toUi(accountKey),
         mockIListModel().toUi(accountKey)
     )
+
     @Test
     fun checkInsertDbLists() = runBlocking {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)

@@ -27,17 +27,21 @@ import com.twidere.twiderex.mock.db.MockAppDatabase
 import com.twidere.twiderex.mock.db.MockCacheDatabase
 import com.twidere.twiderex.mock.model.mockUiSearch
 import com.twidere.twiderex.model.MicroBlogKey
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
 internal class CacheRepositoryTest {
+
     @Test
-    fun clearAllCachesSuccess() = runBlocking {
+    fun clearAllCachesSuccess() = runTest {
         val cacheDatabase = MockCacheDatabase()
         val appDatabase = MockAppDatabase()
         val storage = StorageProvider(ApplicationProvider.getApplicationContext())

@@ -30,6 +30,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
@@ -65,4 +66,6 @@ internal abstract class BaseDaoTest<DB : RoomDatabase> {
     }
 
     abstract fun getDBClass(): Class<DB>
+
+    protected fun runBlocking(block: suspend () -> Unit) = runTest { block() }
 }

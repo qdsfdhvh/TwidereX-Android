@@ -27,14 +27,15 @@ import com.twidere.twiderex.db.base.CacheDatabaseDaoTest
 import com.twidere.twiderex.mock.model.mockIDirectMessage
 import com.twidere.twiderex.mock.model.mockIUser
 import com.twidere.twiderex.model.MicroBlogKey
-import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 internal class DirectMessageEventDaoImplTest : CacheDatabaseDaoTest() {
+
     val accountKey = MicroBlogKey.twitter("test")
+
     @Test
     fun insertAll_SaveBothMessageAndAttachmentsToDatabase() = runBlocking {
         val cacheDatabase = CacheDatabaseImpl(roomDatabase)

@@ -25,11 +25,11 @@ import com.twidere.twiderex.db.base.AppDatabaseDaoTest
 import com.twidere.twiderex.mock.model.mockUiSearch
 import com.twidere.twiderex.model.MicroBlogKey
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import kotlin.test.assertEquals
 
 internal class SearchDaoImplTest : AppDatabaseDaoTest() {
+
     private val twitterAccountKey = MicroBlogKey.twitter("123")
     private val mastodonAccountKey = MicroBlogKey("456", "mastodon.com")
 
