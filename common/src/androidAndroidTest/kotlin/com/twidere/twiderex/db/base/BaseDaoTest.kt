@@ -51,18 +51,18 @@ internal abstract class BaseDaoTest<DB : RoomDatabase> {
 
     @Before
     open fun setUp() {
-        Dispatchers.setMain(mainThreadSurrogate)
-
         roomDatabase = Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), getDBClass())
             .setTransactionExecutor(mainThreadSurrogate.executor).build()
+
+        Dispatchers.setMain(mainThreadSurrogate)
     }
 
     @After
     open fun tearDown() {
-        roomDatabase.close()
-
         Dispatchers.resetMain()
         mainThreadSurrogate.close()
+
+        roomDatabase.close()
     }
 
     abstract fun getDBClass(): Class<DB>
